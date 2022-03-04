@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import EditIcon from "@mui/icons-material/Edit";
-import "./ListTasks.css";
+import "./ListTasks.scss";
+import Moment from "react-moment";
 
-const ListTasks = ({ data, deleteFunc }) => {
+const ListTasks = ({ tasks, deleteFunc }) => {
   console.log(deleteFunc);
   return (
     <div className="listTask">
-      {data.map((item, index) => (
-        <div className="listTask__task">
-          <p>{item}</p>
-          <button className="editBtn">
-            <EditIcon />
-          </button>
+      {tasks.map((task, index) => (
+        <div key={index} className="listTask__task">
+          <div className="listTask__content">
+            <p>{task.content}</p>
+            <Moment className="listTask__time" fromNow>
+              {task.createdOn}
+            </Moment>
+          </div>
           <button className="deleteBtn" onClick={() => deleteFunc(index)}>
             <DeleteOutlineIcon />
           </button>

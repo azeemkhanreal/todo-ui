@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import ListTasks from "./components/ListTasks";
-import "./App.css";
+import "./App.scss";
 
 const App = () => {
-  const [task, setTask] = useState([]);
+  const [task, setTask] = useState([]); //
   const [input, setInput] = useState();
   // when user enter add task button then addTask function take input and set into input state
   const addTask = (e) => {
     e.preventDefault();
+    let currTime = new Date().toString();
     if (input) {
-      setTask([...task, input]);
+      setTask([...task, { content: input, createdOn: currTime }]);
       setInput("");
     }
   };
@@ -22,7 +23,13 @@ const App = () => {
     let tasks = task.filter((item, index) => index !== key);
     setTask([...tasks]);
   };
-
+  const editTask = (index, editInput) => {
+    if (!task[index].editable) {
+      task[index].editable = true;
+    }
+    task[index].name = editInput;
+  };
+  console.log(task);
   return (
     <div className="App">
       <div className="todo-container">
@@ -38,7 +45,7 @@ const App = () => {
           </form>
         </div>
         <div className="todo-list">
-          <ListTasks data={task} deleteFunc={deleteTask} />
+          <ListTasks tasks={task} deleteFunc={deleteTask} editFunc={editTask} />
         </div>
       </div>
     </div>
